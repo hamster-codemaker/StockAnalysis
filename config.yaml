@@ -1,0 +1,68 @@
+# A股成长股文档下载器配置
+# 所有阈值均可按需调整；删除某项则使用程序内置默认值。
+
+screening:
+  include_bse: false          # 是否纳入北交所股票
+  exclude_st: true            # 剔除ST/*ST/退市整理股
+  market_cap_max_yi: 200      # ④ 总市值上限（亿元）
+  growth:                     # ① 业绩增速
+    revenue_yoy_min: 40       # 营收同比增速下限（%）
+    profit_yoy_min: 40        # 净利润同比增速下限（%）
+    consecutive_periods: 1    # 需连续满足的报告期数（1 = 仅最新报告期）
+    periods_lookback: 6       # 最多向前查找的报告期数量
+  institution:                # ⑤ 机构持仓
+    min_institutions: 1       # 持有机构家数下限
+    max_float_ratio_pct: 20   # 机构持股占流通股比例上限（%）
+    quarters_lookback: 2      # 最新季度缺数据时向前回溯的季度数
+
+downloads:
+  output_dir: data/docs
+  prospectus:
+    enabled: true             # 招股说明书（取最新正式版，排除摘要/意向书）
+  financial_reports:
+    enabled: true
+    types: [年报, 半年报, 一季报, 三季报]   # 全量定期报告
+    since: "1990-01-01"       # 检索起始日期（上市以来）
+  research_reports:
+    enabled: true
+    stock:                    # 个股研报
+      months: 6               # 时间窗（月）
+      max_count: 10           # 每股最多下载篇数
+      ratings: [买入, 增持]    # 评级过滤（子串匹配；留空 [] 表示不过滤评级）
+    industry:                 # 行业研报（额外参考材料）
+      enabled: true
+      months: 3
+      max_count: 5
+  policies:                   # 行业政策性文件（国务院政策文件库，中央文件库统一存储）
+    enabled: true
+    per_industry_max: 30      # 每个行业最多收录的政策文件数（多多益善可调大）
+    fulltext_supplement: true # 标题检索不足时用全文检索补量
+    output_dir: data/policies # 政策根目录：正文与附件在 <output_dir>/文件库，总清单为 <output_dir>/政策总清单.csv
+  financial_analysis:         # 从东方财富公开财报提取关键指标并出图（不解析扫描版 PDF）
+    enabled: true
+
+dianjin:
+  dividend_min: 3.0           # 点金术：股息率须严格大于该值（%）
+  extra_dividend_min: 4.0     # extra：股息率须严格大于该值；extra ⊆ 点金术
+  pe_max: 20.0                # 动态/静态/TTM 均须 0 < PE < pe_max；缺数/负数不通过
+  ma120_ratio: 0.88           # 收盘须严格小于 MA120 × 该比例（前复权 K 线）
+  extra_ma120_ratio: 0.82
+  ma_period: 120
+  exclude_st: true            # 剔除 ST / *ST / 退市整理股
+  include_bse: false          # 默认不含北交所（与成长股筛选一致）
+  recent_signal_days: 5       # 个股报告高亮最近 N 个交易日的技术信号
+  kline_rate_limit: 0.3       # 仅对股息+PE 幸存者拉 MA120，约 0.25–0.35 秒/只
+  snapshot_page_size: 100     # 全市场 clist 分页
+  snapshot_sleep: 0.15
+
+network:
+  rate_limit_seconds: 1.5     # 任意两次请求之间的最小间隔（秒）
+  max_retries: 3              # 失败重试次数（指数退避）
+  timeout_seconds: 30
+  use_system_proxy: false     # 数据源均为国内站点，默认绕过系统代理直连；如需走代理改为 true
+
+paths:
+  screening_dir: data/screening
+  dianjin_dir: data/dianjin
+  cache_dir: data/cache
+  manifest: data/manifest.json

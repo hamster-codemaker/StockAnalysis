@@ -1,0 +1,37 @@
+# 技术面分析（仅本目录使用，与项目根 config.yaml 无关）
+
+lookback_trading_days: 120   # 图上展示的交易日数量（不是日历日）
+warmup_extra_days: 130       # 额外预热交易日，使 MA120 在可见 120 日内有定义（合计约 250 根）
+
+ma:
+  short: 8
+  long: 24
+  trend: 120                 # 点金术/通达信常用中长期均线
+
+macd:
+  fast: 12
+  slow: 26
+  signal: 9
+  divergence_window: 60      # 顶/底背离：在近 N 个交易日内找前高/前低
+  divergence_min_gap: 5      # 当日与前高/前低至少间隔的交易日
+
+bollinger:
+  period: 20
+  std_mult: 2.0              # 通达信/同花顺/东财常见默认：N=20，P=2
+
+rsi:
+  period: 6                  # 通达信 RSI1，信号主周期
+  period2: 12                # 通达信 RSI2
+  period3: 24                # 通达信 RSI3
+  overbought: 80
+  oversold: 20
+
+network:
+  rate_limit_seconds: 1.5
+  max_retries: 3
+  timeout_seconds: 30
+  use_system_proxy: false    # 国内行情源，默认绕过系统代理直连
+
+paths:
+  watchlist: watchlist.txt   # 相对本目录
+  output_dir: output         # 相对本目录

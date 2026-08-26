@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyd
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments and local secrets
+.venv/
+venv/
+env/
+.env
+.env.*
+!.env.example
+
+# Generated project data and personal settings
+data/
+dist/
+build/
+backup/
+userdata/*
+!userdata/README.md
+!userdata/watchlist.example.txt
+logs/
+*.log
+
+# Technical-analysis runtime output
+tech_analysis/output/
+tech_analysis/watchlist.txt
+
+# IDE and operating-system files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Installer/compiler intermediates
+installer/Output/
+*.tmp

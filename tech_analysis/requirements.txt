@@ -1,0 +1,7 @@
+# 与主项目依赖一致，一般只需在项目根执行 pip install -r requirements.txt
+akshare>=1.14.0
+pandas>=2.0.0
+matplotlib>=3.8.0
+PyYAML>=6.0
+requests>=2.31.0
+curl_cffi>=0.7.0
