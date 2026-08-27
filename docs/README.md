@@ -176,6 +176,7 @@ data/
 
 ```bash
 python -m unittest discover -s tests    # 全部单元测试
+pip install -r requirements-dev.txt     # 首次打包前安装 PyInstaller
 python pack.py                          # PyInstaller onedir + Inno 安装包 → dist/installer/StockAnalysisSetup.exe
 ```
 
